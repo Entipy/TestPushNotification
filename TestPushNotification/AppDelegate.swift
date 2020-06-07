@@ -37,8 +37,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { isSuccess, error in
             print("registerPushNotification \(isSuccess)")
         }
+        UNUserNotificationCenter.current().delegate = self
     }
 
+}
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Push notification received in foreground")
+        completionHandler([.alert, .sound, .badge])
+    }
+    
 }
 
